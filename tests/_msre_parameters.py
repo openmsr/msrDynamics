@@ -76,15 +76,15 @@ def get_params(power):
         "mcp_f1": params["mn_f"] * params["scp_f"],  # Heat capacity of fuel in channel 1 (kJ/K)
         "mcp_f2": params["mn_f"] * params["scp_f"],  # Heat capacity of fuel in channel 2 (kJ/K)
         "hA_fg": 0.02 * 9 / 5,  # Heat transfer coefficient fuel-to-graphite (kJ/s-K)
-        "k_g": 0.07,  # Thermal conductivity of graphite (kW/m-K)
-        "k_1": 0.5,  # Thermal conductivity parameter 1
-        "k_2": 0.5,  # Thermal conductivity parameter 2
-        "k_f": 0.93,  # Thermal conductivity of fuel (kW/m-K)
+        "k_g": 0.07,  # Fraction of fission power deposited in graphite (dimensionless)
+        "k_f": 0.93,  # Fraction of fission power deposited in fuel (dimensionless)
+        "k_1": 0.5,  # Fraction of convective heat transfer from fuel node 1 to graphite (dimensionless)
+        "k_2": 0.5,  # Fraction of convective heat transfer from fuel node 2 to graphite (dimensionless)
     })
 
     params.update({
-        "k_f1": params["k_f"] / params["nn_f"],  # Thermal conductivity per fuel channel 1
-        "k_f2": params["k_f"] / params["nn_f"],  # Thermal conductivity per fuel channel 2
+        "k_f1": params["k_f"] / params["nn_f"],  # Fraction of fission power deposited in fuel channel 1 (dimensionless)
+        "k_f2": params["k_f"] / params["nn_f"],  # Fraction of fission power deposited in fuel channel 2 (dimensionless)
 
         # Heat Exchanger Parameters
         "d_he": 16,  # Diameter of heat exchanger (m)

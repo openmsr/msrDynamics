@@ -101,7 +101,7 @@ def _build_msre_model(power: float, times: npt.ArrayLike, t_ins: float = 2500, p
 
     # core
     n.set_dndt(
-        r=rho.y() + rho_ext,
+        r=rho.y() + rho_ext + p["rho_0"],
         beta_eff=p["beta_t"],
         Lambda=p["Lam"],
         lam=p["lam"],
@@ -151,6 +151,7 @@ def test_msre_model_1MW():
     p, model = _build_msre_model(power = P, times = T, t_ins = t_ins, pcm = inserted)
     _ = model.solve(T, max_delay = p['tau_l'], populate_nodes = True)
     n = model.nodes['n']
+    rho   = model.nodes['rho']
 
     # parse data for comparison
     i_insert = np.array([i for i in range(len(T)) if (T[i] > t_ins) and (T[i] < t_ins + duration)])
@@ -162,6 +163,11 @@ def test_msre_model_1MW():
 
     # compare
     np.testing.assert_allclose(dP_msrD, dP_simulink, rtol=1e-1, atol = 1e-2)
+
+    # Before insertion, thermal feedback should remain near zero.
+    pre_settled = (np.array(T) > t_ins - 500) & (np.array(T) < t_ins - 10)
+    rho_settled = rho.y_out[pre_settled]
+    np.testing.assert_allclose(rho_settled, 0.0, atol=1e-7)
 
 def test_msre_model_5MW():
 
@@ -180,6 +186,7 @@ def test_msre_model_5MW():
     p, model = _build_msre_model(power = P, times = T, t_ins = t_ins, pcm = inserted)
     _ = model.solve(T, max_delay = p['tau_l'], populate_nodes = True)
     n = model.nodes['n']
+    rho   = model.nodes['rho']
 
     # parse data for comparison
     i_insert = np.array([i for i in range(len(T)) if (T[i] > t_ins) and (T[i] < t_ins + duration)])
@@ -191,6 +198,11 @@ def test_msre_model_5MW():
 
     # compare
     np.testing.assert_allclose(dP_msrD, dP_simulink, rtol=1e-1, atol = 5*1e-2)
+
+    # Before insertion, thermal feedback should remain near zero.
+    pre_settled = (np.array(T) > t_ins - 500) & (np.array(T) < t_ins - 10)
+    rho_settled = rho.y_out[pre_settled]
+    np.testing.assert_allclose(rho_settled, 0.0, atol=1e-7)
 
 def test_msre_model_8MW():
 
@@ -209,6 +221,10 @@ def test_msre_model_8MW():
     p, model = _build_msre_model(power = P, times = T, t_ins = t_ins, pcm = inserted)
     _ = model.solve(T, max_delay = p['tau_l'], populate_nodes = True)
     n = model.nodes['n']
+    T_cf1 = model.nodes['T_cf1']
+    T_cf2 = model.nodes['T_cf2']
+    T_cg  = model.nodes['T_cg']
+    rho   = model.nodes['rho']
 
     # parse data for comparison
     i_insert = np.array([i for i in range(len(T)) if (T[i] > t_ins) and (T[i] < t_ins + duration)])
@@ -220,3 +236,17 @@ def test_msre_model_8MW():
 
     # compare
     np.testing.assert_allclose(dP_msrD, dP_simulink, rtol=1e-1, atol = 8*1e-2)
+
+    # Before insertion, thermal feedback should remain near zero and the initial temperatures should be near the reference state.
+    pre_settled = (np.array(T) > t_ins - 500) & (np.array(T) < t_ins - 10)
+    rho_settled = rho.y_out[pre_settled]
+
+    np.testing.assert_allclose(rho_settled, 0.0, atol=1e-7)
+
+    T_cf1_settled = T_cf1.y_out[pre_settled]
+    T_cf2_settled = T_cf2.y_out[pre_settled]
+    T_cg_settled = T_cg.y_out[pre_settled]
+
+    np.testing.assert_allclose(T_cf1.y_out[0], T_cf1_settled, rtol=0.0, atol=0.5)
+    np.testing.assert_allclose(T_cf2.y_out[0], T_cf2_settled, rtol=0.0, atol=0.5)
+    np.testing.assert_allclose(T_cg.y_out[0], T_cg_settled, rtol=0.0, atol=0.5)
