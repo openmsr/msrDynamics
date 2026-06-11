@@ -21,7 +21,7 @@ pytestmark = [pytest.mark.pke, pytest.mark.function]
 
 
 class TestOneGroupClosedForm:
-    """Tests 7-9: msrDynamics vs analytical solution across inhour spectrum."""
+    """msrDynamics vs analytical solution across inhour spectrum."""
 
     @pytest.mark.parametrize("rho0", [0.0, 0.003, -0.003])
     def test_one_group_pke_matches_closed_form(self, rho0):
@@ -40,7 +40,7 @@ class TestOneGroupClosedForm:
 
 
 class TestPromptJump:
-    """Test 11: textbook prompt-jump amplitude after fast eigenmode decays."""
+    """textbook prompt-jump amplitude after fast eigenmode decays."""
 
     def test_prompt_jump_ratio_matches_approximation(self):
         rho0 = 0.003
@@ -59,7 +59,7 @@ class TestPromptJump:
 
 
 class TestIsolatedPrecursor:
-    """Tests 13-14: set_dcdt with constant neutron source."""
+    """set_dcdt with constant neutron source."""
 
     def test_precursor_buildup_from_zero(self):
         n_const, C0 = 1.0, 0.0
@@ -88,7 +88,7 @@ class TestIsolatedPrecursor:
 
 
 class TestSetdrdt:
-    """Tests 15-17: linear reactivity ramps."""
+    """linear reactivity ramps."""
 
     def test_single_source_linear_ramp(self):
         rho0, source, coeff = 0.0, 1.0, 1e-4
@@ -133,7 +133,7 @@ class TestSetdrdt:
 
 
 class TestSetdndtDecay:
-    """Tests 18-19: generic source-decay equation
+    """generic source-decay equation
     dn_d/dt = (n/n0)*rel_yield - lam*n_d
     """
 
