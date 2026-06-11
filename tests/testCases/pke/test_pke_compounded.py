@@ -14,7 +14,7 @@ pytestmark = [pytest.mark.pke, pytest.mark.compounded]
 
 
 class TestTwoGroup:
-    """Test 12: list-summation in set_dndt at multi-group steady state."""
+    """list-summation in set_dndt at multi-group steady state."""
 
     def test_two_group_critical_steady_state(self):
         Lam = LAMBDA
