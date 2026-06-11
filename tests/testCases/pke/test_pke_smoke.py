@@ -15,9 +15,9 @@ pytestmark = [pytest.mark.pke, pytest.mark.smoke]
 
 
 class TestSmoke:
-    """Tests 1-4: API guards, construction sanity, output preservation."""
+    """API guards, construction sanity, output preservation."""
 
-    # ---- Test 1: pre-system setter guards ---------------------------------
+    # ---- pre-system setter guards ---------------------------------
 
     def test_set_dndt_before_add_raises(self):
         n = Node(name='n', y0=1.0)
@@ -40,7 +40,7 @@ class TestSmoke:
         with pytest.raises(ValueError):
             d.set_dndt_decay(n=None, n0=1.0, rel_yield=0.01, lam=0.1)
 
-    # ---- Test 2: cross-domain mixing guards -------------------------------
+    # ---- cross-domain mixing guards -------------------------------
 
     def test_dndt_blocks_dTdt_convective(self):
         sys = System()
@@ -74,7 +74,7 @@ class TestSmoke:
         with pytest.raises(ValueError):
             n.set_drdt(sources=[0.0], coeffs=[1.0])
 
-    # ---- Test 3: minimal solve sanity -------------------------------------
+    # ---- minimal solve sanity -------------------------------------
 
     def test_minimal_solve_finite(self):
         sys, n, C, rho = build_one_group_system(rho0=0.0, C0=100.0)
@@ -85,7 +85,7 @@ class TestSmoke:
         assert not np.any(np.isnan(sol))
         assert not np.any(np.isinf(sol))
 
-    # ---- Test 4: output shape & initial-value preservation ----------------
+    # ---- output shape & initial-value preservation ----------------
 
     def test_output_shape_and_initial_values(self):
         n0, C0, rho0, nd0 = 1.0, 50.0, 0.0, 0.0
