@@ -15,7 +15,7 @@ pytestmark = [pytest.mark.pke, pytest.mark.basic]
 
 
 class TestCriticalSteadyState:
-    """Tests 5-6: rho=0 equilibrium and off-equilibrium IC behavior."""
+    """rho=0 equilibrium and off-equilibrium IC behavior."""
 
     def test_critical_steady_state_one_group(self):
         """Test 5: n and C stay constant at rho=0 with equilibrium precursors."""
@@ -34,7 +34,7 @@ class TestCriticalSteadyState:
         (2.0, "above"),
     ])
     def test_wrong_precursor_ic_produces_transient(self, C_factor, direction):
-        """Test 6: off-equilibrium C0 drives n with the correct sign."""
+        """off-equilibrium C0 drives n with the correct sign."""
         n0 = N0
         C_eq = BETA * n0 / (LAMBDA * LAM)
         sys, n, *_ = build_one_group_system(
@@ -49,7 +49,7 @@ class TestCriticalSteadyState:
 
 
 class TestTrendSanity:
-    """Test 10: qualitative trends across the inhour spectrum."""
+    """qualitative trends across the inhour spectrum."""
 
     def test_delayed_supercritical_grows(self):
         sys, n, *_ = build_one_group_system(rho0=0.001)
