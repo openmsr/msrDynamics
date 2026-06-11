@@ -18,7 +18,7 @@ class TestCriticalSteadyState:
     """rho=0 equilibrium and off-equilibrium IC behavior."""
 
     def test_critical_steady_state_one_group(self):
-        """Test 5: n and C stay constant at rho=0 with equilibrium precursors."""
+        """n and C stay constant at rho=0 with equilibrium precursors."""
         n0 = N0
         C0 = BETA * n0 / (LAMBDA * LAM)
         sys, n, C, rho = build_one_group_system(rho0=0.0, n0=n0)
