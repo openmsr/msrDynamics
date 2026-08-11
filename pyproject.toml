@@ -8,10 +8,9 @@ version = "0.1.0"
 description = "Python API to JiTCDDE for neutronic and thermal hydraulic systems"
 readme = "README.md"
 authors = [{ name = "Luke Labrie-Cleary", email = "lplcleary@gmail.com" }]
-license = { file = "LICENSE" }
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -19,7 +18,13 @@ classifiers = [
 dependencies = [
     "jitcdde>1.8.1",
     "numpy",
-    "chspy"
+    "chspy",
+    "sympy",
+    "matplotlib", 
+    "tqdm",
+    "pandas",
+    "openpyxl",
+    "pytest"
 ]
 requires-python = ">=3.6"
 
